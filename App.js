@@ -1,80 +1,28 @@
-import React, { useState, useEffect, useContext, useReducer, createContext } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+// App.js — React Navigation Stack
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-const StudentContext = createContext();
+import SplashScreen from './screens/SplashScreen';
+import LoginScreen from './screens/LoginScreen';
+import SignUpScreen from './screens/SignUpScreen';
+import HomeScreen from './screens/HomeScreen';
 
-function reducer(state, action) {
-  switch (action.type) {
-    case 'increment':
-      return { count: state.count + 1 };
-    case 'decrement':
-      return { count: state.count - 1 };
-    default:
-      return state;
-  }
-}
-
-function ContextChild() {
-  const student = useContext(StudentContext);
-  return (
-    <Text style={styles.text}>Student: {student}</Text>
-  );
-}
+const Stack = createStackNavigator();
 
 export default function App() {
-
-  const [count, setCount] = useState(0);
-
-  const [state, dispatch] = useReducer(reducer, { count: 0 });
-
-  useEffect(() => {
-    console.log("Component Loaded - Abdul Basit SP24-BCS-033");
-  }, []);
-
   return (
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="Splash"
+        screenOptions={{ headerShown: false }}>
 
-    <StudentContext.Provider value="Abdul Basit">
+        <Stack.Screen name="Splash" component={SplashScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="SignUp" component={SignUpScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
 
-      <View style={styles.container}>
-
-        <Text style={styles.title}>useState Example</Text>
-        <Text style={styles.text}>Count: {count}</Text>
-        <Button title="Increase" onPress={() => setCount(count + 1)} />
-
-        <Text style={styles.title}>useContext Example</Text>
-        <ContextChild />
-
-        <Text style={styles.title}>useReducer Example</Text>
-        <Text style={styles.text}>Reducer Count: {state.count}</Text>
-
-        <Button title="Increment" onPress={() => dispatch({ type: 'increment' })} />
-        <Button title="Decrement" onPress={() => dispatch({ type: 'decrement' })} />
-
-      </View>
-
-    </StudentContext.Provider>
-
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f1f2f6'
-  },
-
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginTop: 20
-  },
-
-  text: {
-    fontSize: 18,
-    margin: 10
-  }
-
-});
