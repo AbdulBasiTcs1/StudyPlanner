@@ -1,132 +1,133 @@
 // screens/LoginScreen.js
 import React, { useState } from 'react';
 import {
-  View, Text, TextInput, TouchableOpacity,
-  StyleSheet, Alert, ScrollView
+  View, Text, StyleSheet, TextInput, TouchableOpacity,
+  ScrollView, StatusBar, KeyboardAvoidingView, Platform,
 } from 'react-native';
+import { COLORS } from '../theme';
 
-const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+export default function LoginScreen({ navigation }) {
+  const [email, setEmail] = useState('sp24-bcs-033@cuiatk.edu.pk');
+  const [password, setPassword] = useState('basit2024');
   const [error, setError] = useState('');
 
-  const handleLogin = () => {
-    const validEmail = 'sp24-bcs-033@cuiatk.edu.pk';
-    const validPass = 'basit2024';
-    const ok = (email === validEmail && password === validPass)
-      || (email.includes('@') && password.length >= 6);
-    if (!ok) {
+  function doLogin() {
+    const valid =
+      (email === 'sp24-bcs-033@cuiatk.edu.pk' && password === 'basit2024') ||
+      (email.includes('@') && password.length >= 6);
+    if (!valid) {
       setError('Incorrect email or password.');
       return;
     }
     setError('');
-    navigation.navigate('Home');
-  };
+    navigation.replace('Main');
+  }
 
   return (
-    <ScrollView style={styles.container}
-      contentContainerStyle={styles.inner}>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
+      <StatusBar barStyle="dark-content" backgroundColor={COLORS.bg} />
+      <ScrollView style={styles.container} contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Text style={styles.back}>← Back</Text>
+        </TouchableOpacity>
 
-      <Text style={styles.back}
-        onPress={() => navigation.goBack()}>← Back</Text>
+        <Text style={styles.heading}>Welcome back 👋</Text>
+        <Text style={styles.sub}>Log in to continue</Text>
 
-      <Text style={styles.heading}>Welcome back </Text>
-      <Text style={styles.sub}>Log in to continue</Text>
-
-      {/* <View style={styles.hintBox}>
-        <Text style={styles.hintText}>
-          💡 Email: sp24-bcs-033@cuiatk.edu.pk{' '}
-            and Password: basit2024
-        </Text>
-      </View> */}
-
-      <Text style={styles.label}>Email address</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter email or username"
-        keyboardType="email-address"
-        autoCapitalize="none"
-        value={email}
-        onChangeText={setEmail}
-      />
-
-      <Text style={styles.label}>Password</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter password"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
-
-      {error !== '' && (
-        <View style={styles.errBox}>
-          <Text style={styles.errText}>{error}</Text>
+        <View style={styles.hint}>
+          <Text style={styles.hintTxt}>
+            💡 <Text style={{ fontWeight: '700' }}>Email:</Text> sp24-bcs-033@cuiatk.edu.pk{'\n'}
+            <Text style={{ fontWeight: '700' }}>Password:</Text> basit2024
+          </Text>
         </View>
-      )}
 
-      <TouchableOpacity style={styles.btnPrimary} onPress={handleLogin}>
-        <Text style={styles.btnPrimaryText}>Log In</Text>
-      </TouchableOpacity>
+        <Text style={styles.label}>Email address</Text>
+        <TextInput
+          style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+          placeholder="your@cuiatk.edu.pk"
+          placeholderTextColor="#b0b7c3"
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
 
-      <Text style={styles.switchText}>
-        New here?{' '}
-        <Text style={styles.link}
-          onPress={() => navigation.navigate('SignUp')}>
-          Create account
+        <Text style={styles.label}>Password</Text>
+        <TextInput
+          style={styles.input}
+          value={password}
+          onChangeText={setPassword}
+          placeholder="Enter password"
+          placeholderTextColor="#b0b7c3"
+          secureTextEntry
+        />
+
+        {error ? (
+          <View style={styles.errBox}>
+            <Text style={styles.errTxt}>{error}</Text>
+          </View>
+        ) : null}
+
+        <TouchableOpacity style={styles.btn} activeOpacity={0.85} onPress={doLogin}>
+          <Text style={styles.btnTxt}>Log In</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.switchTxt}>
+          New here?{' '}
+          <Text style={styles.switchLink} onPress={() => navigation.navigate('SignUp')}>
+            Create account
+          </Text>
         </Text>
-      </Text>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F5F6FA' },
-  inner: { padding: 20 },
-  back: {
-    color: '#5B4FCF', fontWeight: '700',
-    fontSize: 12, marginBottom: 14,
-  },
-  heading: {
-    fontSize: 21, fontWeight: '900', color: '#1a1a2e',
-  },
-  sub: { fontSize: 12, color: '#64748b', marginTop: 2, marginBottom: 14 },
-  hintBox: {
-    backgroundColor: '#EEF0FF',
-    borderRadius: 10, padding: 9,
-    marginTop: 4, borderWidth: 1,
+  container: { flex: 1, backgroundColor: COLORS.bg },
+  content: { padding: 20, paddingBottom: 30 },
+  back: { color: COLORS.primary, fontWeight: '700', fontSize: 13, marginBottom: 16 },
+  heading: { fontSize: 23, fontWeight: '900', color: COLORS.text },
+  sub: { fontSize: 13, color: COLORS.muted, marginTop: 3, marginBottom: 16 },
+  hint: {
+    backgroundColor: COLORS.primaryBg,
+    borderRadius: 11,
+    padding: 10,
+    borderWidth: 1,
     borderColor: 'rgba(91,79,207,0.15)',
+    marginBottom: 4,
   },
-  hintText: { fontSize: 11, color: '#5B4FCF', lineHeight: 18 },
-  label: {
-    fontSize: 11, fontWeight: '700',
-    color: '#1a1a2e', marginBottom: 4, marginTop: 10,
-  },
+  hintTxt: { fontSize: 12, color: COLORS.primary, lineHeight: 20 },
+  label: { fontSize: 11, fontWeight: '700', color: COLORS.text, marginTop: 12, marginBottom: 5 },
   input: {
-    borderWidth: 1.5, borderColor: '#e2e8f0',
-    borderRadius: 10, padding: 10,
-    fontSize: 13, color: '#1a1a2e',
-    backgroundColor: '#fff',
+    borderWidth: 1.5,
+    borderColor: COLORS.border,
+    borderRadius: 11,
+    padding: 11,
+    fontSize: 14,
+    color: COLORS.text,
+    backgroundColor: COLORS.card,
   },
   errBox: {
-    backgroundColor: '#fef2f2', borderRadius: 8,
-    padding: 7, marginTop: 6,
-    borderWidth: 1, borderColor: '#fecaca',
+    backgroundColor: '#fef2f2',
+    borderRadius: 9,
+    padding: 9,
+    marginTop: 8,
+    borderWidth: 1,
+    borderColor: '#fecaca',
   },
-  errText: { fontSize: 11, color: '#dc2626' },
-  btnPrimary: {
-    backgroundColor: '#5B4FCF',
-    paddingVertical: 13, borderRadius: 13,
-    alignItems: 'center', marginTop: 12,
+  errTxt: { fontSize: 12, color: COLORS.red },
+  btn: {
+    backgroundColor: COLORS.primary,
+    borderRadius: 14,
+    paddingVertical: 14,
+    alignItems: 'center',
+    marginTop: 14,
   },
-  btnPrimaryText: {
-    color: '#fff', fontWeight: '800', fontSize: 14,
-  },
-  switchText: {
-    textAlign: 'center', fontSize: 12,
-    color: '#64748b', marginTop: 12,
-  },
-  link: { color: '#5B4FCF', fontWeight: '700' },
+  btnTxt: { color: '#fff', fontWeight: '800', fontSize: 15 },
+  switchTxt: { textAlign: 'center', fontSize: 13, color: COLORS.muted, marginTop: 14 },
+  switchLink: { color: COLORS.primary, fontWeight: '700' },
 });
-
-export default LoginScreen;
