@@ -8,7 +8,7 @@ const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.greeting}>Hello, Student 👋</Text>
+        <Text style={styles.greeting}>Hello, Abdul Basit 👋</Text>
         <Text style={styles.sub}>Welcome to StudyPlanner</Text>
       </View>
 
