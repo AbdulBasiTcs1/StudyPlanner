@@ -1,26 +1,32 @@
 // screens/LoginScreen.js
 import React, { useState } from 'react';
 import {
-  View, Text, StyleSheet, TextInput, TouchableOpacity,
+  View, Text, TextInput, TouchableOpacity,
   ScrollView, StatusBar, KeyboardAvoidingView, Platform,
 } from 'react-native';
 import { COLORS } from '../theme';
 
 export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState('sp24-bcs-033@cuiatk.edu.pk');
+  const [email,    setEmail]    = useState('sp24-bcs-033@cuiatk.edu.pk');
   const [password, setPassword] = useState('basit2024');
-  const [error, setError] = useState('');
+  const [error,    setError]    = useState('');
+  const [loading,  setLoading]  = useState(false);
 
   function doLogin() {
     const valid =
       (email === 'sp24-bcs-033@cuiatk.edu.pk' && password === 'basit2024') ||
       (email.includes('@') && password.length >= 6);
+
     if (!valid) {
       setError('Incorrect email or password.');
       return;
     }
     setError('');
-    navigation.replace('Main');
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      navigation.replace('Main');
+    }, 500);
   }
 
   return (
@@ -29,24 +35,32 @@ export default function LoginScreen({ navigation }) {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.bg} />
-      <ScrollView className="flex-1 bg-bg" contentContainerStyle={{ padding: 20, paddingBottom: 30 }} keyboardShouldPersistTaps="handled">
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text className="text-primary font-bold text-[13px] mb-4">← Back</Text>
+      <ScrollView
+        className="flex-1 bg-bg"
+        contentContainerStyle={{ padding: 24, paddingBottom: 40 }}
+        keyboardShouldPersistTaps="handled"
+      >
+        {/* Back button */}
+        <TouchableOpacity onPress={() => navigation.goBack()} className="mb-6">
+          <Text className="text-primary font-bold text-sm">← Back</Text>
         </TouchableOpacity>
 
-        <Text className="text-[23px] font-black text-text">Welcome back 👋</Text>
-        <Text className="text-[13px] text-muted mt-1 mb-4">Log in to continue</Text>
+        {/* Header */}
+        <Text className="text-[26px] font-black text-text">Welcome back 👋</Text>
+        <Text className="text-sm text-muted mt-1 mb-5">Log in to continue planning</Text>
 
-        <View className="bg-primaryBg rounded-xl p-2.5 border border-primary/10 mb-1">
+        {/* Demo credentials hint */}
+        <View className="bg-primaryBg rounded-2xl p-3.5 border border-primary/20 mb-6">
           <Text className="text-xs text-primary leading-5">
-            💡 <Text className="font-bold">Email:</Text> sp24-bcs-033@cuiatk.edu.pk{'\n'}
+            💡 <Text className="font-bold">Demo Email:</Text> sp24-bcs-033@cuiatk.edu.pk{'\n'}
             <Text className="font-bold">Password:</Text> basit2024
           </Text>
         </View>
 
-        <Text className="text-[11px] font-bold text-text mt-3 mb-1.5">Email address</Text>
+        {/* Email field */}
+        <Text className="text-xs font-bold text-text mb-1.5">Email address</Text>
         <TextInput
-          className="border-2 border-border rounded-xl p-3 text-sm text-text bg-card"
+          className="border-2 border-border rounded-2xl p-3.5 text-sm text-text bg-card mb-4"
           value={email}
           onChangeText={setEmail}
           placeholder="your@cuiatk.edu.pk"
@@ -55,9 +69,10 @@ export default function LoginScreen({ navigation }) {
           autoCapitalize="none"
         />
 
-        <Text className="text-[11px] font-bold text-text mt-3 mb-1.5">Password</Text>
+        {/* Password field */}
+        <Text className="text-xs font-bold text-text mb-1.5">Password</Text>
         <TextInput
-          className="border-2 border-border rounded-xl p-3 text-sm text-text bg-card"
+          className="border-2 border-border rounded-2xl p-3.5 text-sm text-text bg-card mb-2"
           value={password}
           onChangeText={setPassword}
           placeholder="Enter password"
@@ -65,19 +80,32 @@ export default function LoginScreen({ navigation }) {
           secureTextEntry
         />
 
+        {/* Error message */}
         {error ? (
-          <View className="bg-red/10 rounded-lg p-2.5 mt-2 border border-red/40">
-            <Text className="text-xs text-red">{error}</Text>
+          <View className="bg-red/10 rounded-xl p-3 mt-2 border border-red/30">
+            <Text className="text-xs text-red font-semibold">⚠️ {error}</Text>
           </View>
         ) : null}
 
-        <TouchableOpacity className="bg-primary rounded-2xl py-3.5 items-center mt-3.5 shadow-sm" activeOpacity={0.85} onPress={doLogin}>
-          <Text className="text-white font-extrabold text-[15px]">Log In</Text>
+        {/* Login button */}
+        <TouchableOpacity
+          className={`rounded-2xl py-4 items-center mt-5 ${loading ? 'bg-primary/60' : 'bg-primary'}`}
+          activeOpacity={0.85}
+          onPress={doLogin}
+          disabled={loading}
+        >
+          <Text className="text-white font-extrabold text-base">
+            {loading ? 'Logging in...' : 'Log In'}
+          </Text>
         </TouchableOpacity>
 
-        <Text className="text-center text-[13px] text-muted mt-3.5">
+        {/* Sign up link */}
+        <Text className="text-center text-sm text-muted mt-5">
           New here?{' '}
-          <Text className="text-primary font-bold" onPress={() => navigation.navigate('SignUp')}>
+          <Text
+            className="text-primary font-bold"
+            onPress={() => navigation.navigate('SignUp')}
+          >
             Create account
           </Text>
         </Text>
@@ -85,5 +113,3 @@ export default function LoginScreen({ navigation }) {
     </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({});

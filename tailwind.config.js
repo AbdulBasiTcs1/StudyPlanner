@@ -1,8 +1,9 @@
 // tailwind.config.js
+/** @type {import('tailwindcss').Config} */
 module.exports = {
-  // NOTE: Update this to include the paths to all of your component files.
   content: [
     "./App.{js,jsx,ts,tsx}",
+    "./index.{js,jsx,ts,tsx}",
     "./screens/**/*.{js,jsx,ts,tsx}",
     "./components/**/*.{js,jsx,ts,tsx}",
   ],
@@ -10,18 +11,19 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#6366f1",
-        primaryLight: "#818cf8",
-        primaryBg: "#eef2ff",
-        secondary: "#ec4899",
-        bg: "#f8fafc",
-        card: "#ffffff",
-        text: "#1e293b",
+        primary: "#5B4FCF",
+        primaryLight: "#7B6FEF",
+        primaryBg: "#EEF0FF",
+        secondary: "#e8365d",
+        bg: "#F5F6FA",
+        card: "#FFFFFF",
+        text: "#1a1a2e",
         muted: "#64748b",
         border: "#e2e8f0",
-        green: "#22c55e",
-        red: "#ef4444",
-        orange: "#f59e0b",
+        green: "#16a34a",
+        red: "#dc2626",
+        amber: "#d97706",
+        teal: "#0d9488",
       },
     },
   },
