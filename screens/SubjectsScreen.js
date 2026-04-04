@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import {
   View, Text, ScrollView, TouchableOpacity,
-  StatusBar, Modal, TextInput,
+  StatusBar, Modal, TextInput, FlatList,
 } from 'react-native';
 import { useApp } from '../AppContext';
 import { COLORS, ICONS, PALETTE } from '../theme';

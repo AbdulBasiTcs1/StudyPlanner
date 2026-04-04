@@ -14,28 +14,28 @@ export default function StatsScreen() {
   const pct   = total > 0 ? Math.round((done / total) * 100) : 0;
   const maxH  = Math.max(...HOURS);
 
+  const STATS = [
+    { value: String(total),          label: 'Total Tasks'  },
+    { value: String(done),           label: 'Completed'    },
+    { value: `${pct}%`,             label: 'Success Rate' },
+    { value: String(subjects.length),label: 'Subjects'     },
+  ];
+
   return (
     <View className="flex-1 bg-bg">
       <StatusBar barStyle="light-content" backgroundColor="#0d9488" />
 
-      {/* ── Header ───────────────────────────────── */}
-      <View
-        className="px-5 pt-5 pb-6 rounded-b-[24px]"
-        style={{ backgroundColor: '#0d9488' }}
-      >
-        <Text className="text-xl font-black text-white">My Stats</Text>
-        <Text className="text-xs text-white/65 mt-1">Your study overview</Text>
+      {/* ── Header ────────────────────────────────────────────── */}
+      <View className="bg-teal px-[15px] pt-[14px] pb-[18px] rounded-b-[20px]" style={{ backgroundColor: '#0d9488' }}>
+        <Text className="text-[17px] font-black text-white">My Stats</Text>
+        <Text className="text-[11px] text-white/60 mt-0.5">Your study overview</Text>
       </View>
+
       <ScrollView
         className="flex-1"
         contentContainerStyle={{ paddingBottom: 24 }}
         showsVerticalScrollIndicator={false}
       >
-        {/* ── Header ────────────────────────────────────────────── */}
-        <View className="bg-teal px-[15px] pt-3.5 pb-[18px] rounded-b-[20px]" style={{ backgroundColor: '#0d9488' }}>
-          <Text className="text-[17px] font-black text-white">My Stats</Text>
-          <Text className="text-[11px] text-white/60 mt-0.5">Your study overview</Text>
-        </View>
 
         {/* ── Dashboard Grid ────────────────────────────────────── */}
         <View className="p-[10px] pb-0">

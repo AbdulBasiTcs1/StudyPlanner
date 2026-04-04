@@ -23,18 +23,18 @@ const Tab = createBottomTabNavigator();
 
 // ─── Custom Bottom Tab Bar (NativeWind styled) ────────────────────────────────
 function MyTabBar({ state, descriptors, navigation }) {
-  const tabs = [
-    { name: 'Home',     icon: '🏠', label: 'Home'     },
-    { name: 'Subjects', icon: '📚', label: 'Subjects' },
-    { name: 'AddTask',  icon: '➕', label: 'Add'      },
-    { name: 'Stats',    icon: '📊', label: 'Stats'    },
-    { name: 'Profile',  icon: '👤', label: 'Profile'  },
-  ];
+  const tabsMap = {
+    Home:     { icon: '🏠', label: 'Home'     },
+    Subjects: { icon: '📚', label: 'Subjects' },
+    AddTask:  { icon: '➕', label: 'Add'      },
+    Stats:    { icon: '📊', label: 'Stats'    },
+    Profile:  { icon: '👤', label: 'Profile'  },
+  };
 
   return (
     <View className="flex-row bg-card border-t border-border pt-1.5 pb-2 h-[50px]" style={{ elevation: 8 }}>
       {state.routes.map((route, index) => {
-        const tab = tabs[index];
+        const tab = tabsMap[route.name] || { icon: '❓', label: route.name };
         const focused = state.index === index;
         return (
           <TouchableOpacity
