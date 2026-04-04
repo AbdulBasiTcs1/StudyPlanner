@@ -23,14 +23,14 @@ export default function SplashScreen({ navigation }) {
         style={{ opacity: fade, transform: [{ translateY: slide }] }}
       >
         {/* App icon */}
-        <View className="w-24 h-24 rounded-[26px] bg-white/20 border-2 border-white/30 items-center justify-center mb-6">
-          <Text className="text-5xl">📖</Text>
+        <View className="w-24 h-24 rounded-[26px] bg-white/20 border-2 border-white/30 items-center justify-center mb-6 self-center">
+          <Text className="text-5xl text-center">📖</Text>
         </View>
 
         {/* Title */}
         <Text className="text-4xl font-black text-white text-center">StudyPlanner</Text>
         <Text className="text-sm text-white/70 text-center mt-2 mb-3 leading-5">
-          Plan smart. Study better.{'\n'}Built for CUIATK students.
+          Plan smart, Study better.{'\n'}Built for CUIATK students.
         </Text>
 
         {/* Feature pills */}
@@ -43,7 +43,7 @@ export default function SplashScreen({ navigation }) {
         </View>
 
         {/* Page dots */}
-        <View className="flex-row gap-1.5 mb-8">
+        <View className="flex-row gap-1.5 mb-8 justify-center items-center">
           <View className="w-6 h-2 rounded-full bg-white" />
           <View className="w-2 h-2 rounded-full bg-white/35" />
           <View className="w-2 h-2 rounded-full bg-white/35" />
