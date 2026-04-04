@@ -49,61 +49,44 @@ export default function ProfileScreen() {
   ];
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1 bg-bg">
       <StatusBar barStyle="light-content" backgroundColor={COLORS.primary} />
-      <View style={styles.hdr}>
-        <View style={styles.avatar}>
-          <Text style={styles.avatarTxt}>{getInitials(user.name)}</Text>
+      <View className="bg-primary px-4 pt-5 pb-7 rounded-b-3xl items-center gap-1.5">
+        <View className="w-[62px] h-[62px] rounded-full bg-white/20 border-[3px] border-white/30 items-center justify-center">
+          <Text className="text-[22px] font-black text-white">{getInitials(user.name)}</Text>
         </View>
-        <Text style={styles.name}>{user.name}</Text>
-        <Text style={styles.email}>{user.email}</Text>
-        <View style={styles.badge}>
-          <Text style={styles.badgeTxt}>{user.reg} · {user.sem}</Text>
+        <Text className="text-[17px] font-black text-white">{user.name}</Text>
+        <Text className="text-[11px] text-white/65">{user.email}</Text>
+        <View className="bg-white/15 rounded-full px-3 py-1 mt-0.5">
+          <Text className="text-white text-[11px] font-bold">{user.reg} · {user.sem}</Text>
         </View>
       </View>
 
-      <ScrollView style={styles.body} contentContainerStyle={{ padding: 12, paddingBottom: 24 }} showsVerticalScrollIndicator={false}>
+      <ScrollView className="flex-1" contentContainerStyle={{ padding: 12, paddingBottom: 24 }} showsVerticalScrollIndicator={false}>
         {settings.map((group, gi) => (
-          <View key={gi} style={styles.section}>
+          <View key={gi} className="bg-card rounded-xl border border-border overflow-hidden mb-2.5">
             {group.section.map((item, ii) => (
               <TouchableOpacity
                 key={ii}
-                style={[styles.row, ii < group.section.length - 1 && styles.rowBorder]}
+                className={`flex-row items-center gap-3 p-3.5 ${ii < group.section.length - 1 ? 'border-b border-border' : ''}`}
                 onPress={item.onPress}
                 activeOpacity={0.75}
               >
-                <Text style={styles.rowIcon}>{item.icon}</Text>
-                <Text style={styles.rowLabel}>{item.label}</Text>
-                <Text style={styles.rowArrow}>›</Text>
+                <Text className="text-base w-5 text-center">{item.icon}</Text>
+                <Text className="flex-1 text-[13px] font-semibold text-text">{item.label}</Text>
+                <Text className="text-sm text-muted">›</Text>
               </TouchableOpacity>
             ))}
           </View>
         ))}
 
-        <TouchableOpacity style={styles.logoutBtn} onPress={doLogout} activeOpacity={0.85}>
-          <Text style={styles.logoutTxt}>🚪 Logout</Text>
+        <TouchableOpacity className="bg-red/10 rounded-xl py-3.5 items-center border-[1.5px] border-red/40" onPress={doLogout} activeOpacity={0.85}>
+          <Text className="text-red font-extrabold text-sm">🚪 Logout</Text>
         </TouchableOpacity>
       </ScrollView>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: COLORS.bg },
-  hdr: { backgroundColor: COLORS.primary, paddingHorizontal: 16, paddingTop: 20, paddingBottom: 28, borderBottomLeftRadius: 24, borderBottomRightRadius: 24, alignItems: 'center', gap: 5 },
-  avatar: { width: 62, height: 62, borderRadius: 31, backgroundColor: 'rgba(255,255,255,0.18)', borderWidth: 3, borderColor: 'rgba(255,255,255,0.3)', alignItems: 'center', justifyContent: 'center' },
-  avatarTxt: { fontSize: 22, fontWeight: '900', color: '#fff' },
-  name: { fontSize: 17, fontWeight: '900', color: '#fff' },
-  email: { fontSize: 11, color: 'rgba(255,255,255,0.65)' },
-  badge: { backgroundColor: 'rgba(255,255,255,0.15)', borderRadius: 13, paddingHorizontal: 12, paddingVertical: 4, marginTop: 2 },
-  badgeTxt: { color: '#fff', fontSize: 11, fontWeight: '700' },
-  body: { flex: 1 },
-  section: { backgroundColor: COLORS.card, borderRadius: 13, borderWidth: 1, borderColor: COLORS.border, overflow: 'hidden', marginBottom: 10 },
-  row: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 13 },
-  rowBorder: { borderBottomWidth: 1, borderBottomColor: COLORS.border },
-  rowIcon: { fontSize: 16, width: 20, textAlign: 'center' },
-  rowLabel: { flex: 1, fontSize: 13, fontWeight: '600', color: COLORS.text },
-  rowArrow: { fontSize: 14, color: COLORS.muted },
-  logoutBtn: { backgroundColor: '#fef2f2', borderRadius: 13, paddingVertical: 13, alignItems: 'center', borderWidth: 1.5, borderColor: '#fecaca' },
-  logoutTxt: { color: COLORS.red, fontWeight: '800', fontSize: 14 },
-});
+const styles = StyleSheet.create({});
+

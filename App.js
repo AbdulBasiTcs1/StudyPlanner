@@ -1,5 +1,6 @@
 // App.js — Navigation setup with Stack (auth) + Bottom Tabs (main)
 import React from 'react';
+import './global.css';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -30,19 +31,19 @@ function TabBar({ state, descriptors, navigation }) {
     { name: 'Profile', icon: '👤', label: 'Profile' },
   ];
   return (
-    <View style={styles.tabBar}>
+    <View className="flex-row bg-white border-t border-border pt-2 pb-1.5 h-[58px]">
       {state.routes.map((route, index) => {
         const tab = tabs[index];
         const focused = state.index === index;
         return (
           <TouchableOpacity
             key={route.key}
-            style={styles.tabItem}
+            className="flex-1 items-center justify-center"
             activeOpacity={0.7}
             onPress={() => navigation.navigate(route.name)}
           >
-            <Text style={styles.tabIcon}>{tab.icon}</Text>
-            <Text style={[styles.tabLabel, focused && styles.tabLabelActive]}>
+            <Text className="text-base leading-5">{tab.icon}</Text>
+            <Text className={`text-[9px] font-bold ${focused ? 'text-primary' : 'text-muted'}`}>
               {tab.label}
             </Text>
           </TouchableOpacity>
@@ -69,7 +70,7 @@ function MainTabs() {
 
 export default function App() {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView className="flex-1">
       <AppProvider>
         <NavigationContainer>
           <Stack.Navigator
@@ -87,32 +88,4 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  tabBar: {
-    flexDirection: 'row',
-    backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderTopColor: COLORS.border,
-    paddingTop: 8,
-    paddingBottom: 6,
-    height: 58,
-  },
-  tabItem: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 2,
-  },
-  tabIcon: {
-    fontSize: 16,
-    lineHeight: 20,
-  },
-  tabLabel: {
-    fontSize: 9,
-    fontWeight: '700',
-    color: COLORS.muted,
-  },
-  tabLabelActive: {
-    color: COLORS.primary,
-  },
-});
+const styles = StyleSheet.create({});

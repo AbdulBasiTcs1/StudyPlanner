@@ -29,39 +29,39 @@ export default function AddTaskScreen({ navigation }) {
   }
 
   const prioItems = [
-    { key: 'h', label: '🔴 High', bg: '#fef2f2', color: COLORS.red, border: COLORS.red },
-    { key: 'm', label: '🟡 Med',  bg: '#fffbeb', color: COLORS.amber, border: COLORS.amber },
-    { key: 'l', label: '🟢 Low',  bg: '#f0fdf4', color: COLORS.green, border: COLORS.green },
+    { key: 'h', label: '🔴 High', bg: 'bg-red/10', color: 'text-red', border: 'border-red' },
+    { key: 'm', label: '🟡 Med',  bg: 'bg-amber/10', color: 'text-amber', border: 'border-amber' },
+    { key: 'l', label: '🟢 Low',  bg: 'bg-green/10', color: 'text-green', border: 'border-green' },
   ];
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <KeyboardAvoidingView className="flex-1" behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <StatusBar barStyle="light-content" backgroundColor={COLORS.primary} />
-      <View style={styles.hdr}>
+      <View className="bg-primary px-4 pt-4 pb-4.5 rounded-b-[18px] flex-row justify-between items-center">
         <View>
-          <Text style={styles.hdrT}>Add Task</Text>
-          <Text style={styles.hdrS}>Schedule a study session</Text>
+          <Text className="text-[17px] font-black text-white">Add Task</Text>
+          <Text className="text-[11px] text-white/60 mt-0.5">Schedule a study session</Text>
         </View>
-        <TouchableOpacity style={styles.xBtn} onPress={() => navigation.goBack()}>
-          <Text style={{ color: '#fff', fontSize: 14 }}>✕</Text>
+        <TouchableOpacity className="w-[30px] h-[30px] rounded-full bg-white/20 items-center justify-center" onPress={() => navigation.goBack()}>
+          <Text className="text-white text-sm">✕</Text>
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={styles.body} contentContainerStyle={styles.bodyContent} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
-        <Text style={styles.lbl}>Task title *</Text>
-        <TextInput style={styles.inp} value={title} onChangeText={setTitle} placeholder="e.g. ML Assignment #3" placeholderTextColor="#b0b7c3" />
+      <ScrollView className="flex-1 bg-bg" contentContainerStyle={{ padding: 14, paddingBottom: 30 }} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
+        <Text className="text-[11px] font-bold text-text mt-3 mb-1.5">Task title *</Text>
+        <TextInput className="border-2 border-border rounded-xl p-3 text-[13px] text-text bg-card" value={title} onChangeText={setTitle} placeholder="e.g. ML Assignment #3" placeholderTextColor="#b0b7c3" />
 
-        <Text style={styles.lbl}>Subject</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginBottom: 4 }}>
-          <View style={{ flexDirection: 'row', gap: 6, marginTop: 4 }}>
+        <Text className="text-[11px] font-bold text-text mt-3 mb-1.5">Subject</Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-1">
+          <View className="flex-row gap-1.5 mt-1">
             {subjects.map((s, i) => (
               <TouchableOpacity
                 key={i}
-                style={[styles.chip, i === subjIdx && styles.chipSel]}
+                className={`px-3 py-1.5 rounded-lg border-2 ${i === subjIdx ? 'bg-primaryBg border-primary/20' : 'bg-[#f1f5f9] border-transparent'}`}
                 onPress={() => setSubjIdx(i)}
                 activeOpacity={0.75}
               >
-                <Text style={[styles.chipTxt, i === subjIdx && styles.chipTxtSel]}>
+                <Text className={`text-[11px] font-bold ${i === subjIdx ? 'text-primary' : 'text-muted'}`}>
                   {s.icon} {s.name.split(' ')[0]}
                 </Text>
               </TouchableOpacity>
@@ -69,32 +69,33 @@ export default function AddTaskScreen({ navigation }) {
           </View>
         </ScrollView>
 
-        <Text style={styles.lbl}>Priority</Text>
-        <View style={styles.prioRow}>
+        <Text className="text-[11px] font-bold text-text mt-3 mb-1.5">Priority</Text>
+        <View className="flex-row gap-1.5 mt-1">
           {prioItems.map((p) => (
             <TouchableOpacity
               key={p.key}
-              style={[styles.prioBtn, { backgroundColor: p.bg, borderColor: p.border }, prio !== p.key && styles.prioBtnUnsel]}
+              className={`flex-1 border-2 rounded-lg py-2 items-center ${p.bg} ${p.border} ${prio !== p.key ? 'opacity-40 border-transparent' : ''}`}
               onPress={() => setPrio(p.key)}
               activeOpacity={0.8}
             >
-              <Text style={[styles.prioBtnTxt, { color: p.color }, prio !== p.key && { opacity: 0.45 }]}>{p.label}</Text>
+              <Text className={`text-[11px] font-bold ${p.color}`}>{p.label}</Text>
             </TouchableOpacity>
           ))}
         </View>
 
-        <Text style={styles.lbl}>Time & duration</Text>
-        <View style={{ flexDirection: 'row', gap: 8 }}>
-          <TextInput style={[styles.inp, { flex: 1 }]} value={time} onChangeText={setTime} placeholder="09:00" placeholderTextColor="#b0b7c3" />
-          <TextInput style={[styles.inp, { flex: 1 }]} value={dur} onChangeText={setDur} placeholder="e.g. 2h" placeholderTextColor="#b0b7c3" />
+        <Text className="text-[11px] font-bold text-text mt-3 mb-1.5">Time & duration</Text>
+        <View className="flex-row gap-2">
+          <TextInput className="flex-1 border-2 border-border rounded-xl p-3 text-[13px] text-text bg-card" value={time} onChangeText={setTime} placeholder="09:00" placeholderTextColor="#b0b7c3" />
+          <TextInput className="flex-1 border-2 border-border rounded-xl p-3 text-[13px] text-text bg-card" value={dur} onChangeText={setDur} placeholder="e.g. 2h" placeholderTextColor="#b0b7c3" />
         </View>
 
-        <Text style={styles.lbl}>Due date</Text>
-        <TextInput style={styles.inp} value={due} onChangeText={setDue} placeholder="YYYY-MM-DD" placeholderTextColor="#b0b7c3" />
+        <Text className="text-[11px] font-bold text-text mt-3 mb-1.5">Due date</Text>
+        <TextInput className="border-2 border-border rounded-xl p-3 text-[13px] text-text bg-card" value={due} onChangeText={setDue} placeholder="YYYY-MM-DD" placeholderTextColor="#b0b7c3" />
 
-        <Text style={styles.lbl}>Notes (optional)</Text>
+        <Text className="text-[11px] font-bold text-text mt-3 mb-1.5">Notes (optional)</Text>
         <TextInput
-          style={[styles.inp, { height: 72, textAlignVertical: 'top' }]}
+          className="border-2 border-border rounded-xl p-3 text-[13px] text-text bg-card h-[72px]"
+          style={{ textAlignVertical: 'top' }}
           value={notes}
           onChangeText={setNotes}
           placeholder="Extra details..."
@@ -103,36 +104,16 @@ export default function AddTaskScreen({ navigation }) {
         />
 
         {error ? (
-          <View style={styles.errBox}><Text style={styles.errTxt}>{error}</Text></View>
+          <View className="bg-red/10 rounded-lg p-2.5 mt-2 border border-red/40"><Text className="text-xs text-red">{error}</Text></View>
         ) : null}
 
-        <TouchableOpacity style={styles.saveBtn} onPress={save} activeOpacity={0.85}>
-          <Text style={styles.saveTxt}>✅ Save Task</Text>
+        <TouchableOpacity className="bg-primary rounded-xl py-3.5 items-center mt-3.5" onPress={save} activeOpacity={0.85}>
+          <Text className="text-white font-extrabold text-[15px]">✅ Save Task</Text>
         </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>
   );
 }
 
-const styles = StyleSheet.create({
-  hdr: { backgroundColor: COLORS.primary, paddingHorizontal: 16, paddingTop: 16, paddingBottom: 18, borderBottomLeftRadius: 18, borderBottomRightRadius: 18, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  hdrT: { fontSize: 17, fontWeight: '900', color: '#fff' },
-  hdrS: { fontSize: 11, color: 'rgba(255,255,255,0.6)', marginTop: 2 },
-  xBtn: { width: 30, height: 30, borderRadius: 15, backgroundColor: 'rgba(255,255,255,0.18)', alignItems: 'center', justifyContent: 'center' },
-  body: { flex: 1, backgroundColor: COLORS.bg },
-  bodyContent: { padding: 14, paddingBottom: 30, gap: 0 },
-  lbl: { fontSize: 11, fontWeight: '700', color: COLORS.text, marginTop: 12, marginBottom: 5 },
-  inp: { borderWidth: 1.5, borderColor: COLORS.border, borderRadius: 11, padding: 11, fontSize: 13, color: COLORS.text, backgroundColor: COLORS.card },
-  chip: { paddingHorizontal: 11, paddingVertical: 6, borderRadius: 9, backgroundColor: '#f1f5f9', borderWidth: 1.5, borderColor: 'transparent' },
-  chipSel: { backgroundColor: COLORS.primaryBg, borderColor: COLORS.primaryLight },
-  chipTxt: { fontSize: 11, fontWeight: '700', color: COLORS.muted },
-  chipTxtSel: { color: COLORS.primary },
-  prioRow: { flexDirection: 'row', gap: 6, marginTop: 4 },
-  prioBtn: { flex: 1, borderWidth: 1.5, borderRadius: 9, paddingVertical: 8, alignItems: 'center' },
-  prioBtnUnsel: { opacity: 0.45 },
-  prioBtnTxt: { fontSize: 11, fontWeight: '700' },
-  errBox: { backgroundColor: '#fef2f2', borderRadius: 9, padding: 9, marginTop: 8, borderWidth: 1, borderColor: '#fecaca' },
-  errTxt: { fontSize: 12, color: COLORS.red },
-  saveBtn: { backgroundColor: COLORS.primary, borderRadius: 13, paddingVertical: 13, alignItems: 'center', marginTop: 14 },
-  saveTxt: { color: '#fff', fontWeight: '800', fontSize: 15 },
-});
+const styles = StyleSheet.create({});
+

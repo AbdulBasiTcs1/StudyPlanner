@@ -18,40 +18,43 @@ export default function StatsScreen() {
   const maxH = Math.max(...HOURS);
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1 bg-bg">
       <StatusBar barStyle="light-content" backgroundColor="#0d9488" />
-      <View style={styles.hdr}>
-        <Text style={styles.hdrTitle}>My Stats</Text>
-        <Text style={styles.hdrSub}>Your study overview</Text>
+      <View className="bg-[#0d9488] px-4 pt-4 pb-5 rounded-b-[20px]">
+        <Text className="text-lg font-black text-white">My Stats</Text>
+        <Text className="text-[11px] text-white/65 mt-0.5">Your study overview</Text>
       </View>
 
-      <ScrollView style={styles.body} contentContainerStyle={styles.bodyContent} showsVerticalScrollIndicator={false}>
+      <ScrollView className="flex-1" contentContainerStyle={{ padding: 12, paddingBottom: 20 }} showsVerticalScrollIndicator={false}>
         {/* Stats grid */}
-        <View style={styles.grid}>
+        <View className="flex-row flex-wrap gap-2 mb-2.5">
           {[
             { val: String(total), lbl: 'Total Tasks' },
             { val: String(done), lbl: 'Completed' },
             { val: pct + '%', lbl: 'Success Rate' },
             { val: String(subjects.length), lbl: 'Subjects' },
           ].map((item, i) => (
-            <View key={i} style={styles.statCard}>
-              <Text style={styles.statVal}>{item.val}</Text>
-              <Text style={styles.statLbl}>{item.lbl}</Text>
+            <View key={i} className="flex-1 min-w-[45%] bg-card rounded-xl p-3 border border-border items-center">
+              <Text className="text-2xl font-black text-primary">{item.val}</Text>
+              <Text className="text-[10px] text-muted font-semibold mt-0.5">{item.lbl}</Text>
             </View>
           ))}
         </View>
 
         {/* Weekly bar chart */}
-        <View style={styles.box}>
-          <Text style={styles.boxTitle}>This week (hours studied)</Text>
-          <View style={styles.bars}>
+        <View className="bg-card rounded-xl p-3 border border-border mb-2.5">
+          <Text className="text-[12px] font-extrabold text-text mb-2.5">This week (hours studied)</Text>
+          <View className="flex-row items-end gap-1.5 h-[76px]">
             {DAYS.map((d, i) => {
               const h = Math.max(4, Math.round((HOURS[i] / maxH) * 68));
               const isFri = i === 4;
               return (
-                <View key={d} style={styles.barCol}>
-                  <View style={[styles.bar, { height: h, backgroundColor: isFri ? '#e8365d' : COLORS.primary }]} />
-                  <Text style={styles.barDay}>{d}</Text>
+                <View key={d} className="flex-1 items-center gap-1">
+                  <View 
+                    className={`w-full rounded-md min-h-[4px] ${isFri ? 'bg-[#e8365d]' : 'bg-primary'}`} 
+                    style={{ height: h }} 
+                  />
+                  <Text className="text-[8px] text-muted font-semibold">{d}</Text>
                 </View>
               );
             })}
@@ -59,23 +62,19 @@ export default function StatsScreen() {
         </View>
 
         {/* Streak */}
-        <View style={styles.box}>
-          <Text style={styles.boxTitle}>Study streak — last 10 days</Text>
-          <View style={styles.streakRow}>
+        <View className="bg-card rounded-xl p-3 border border-border mb-2.5">
+          <Text className="text-[12px] font-extrabold text-text mb-2.5">Study streak — last 10 days</Text>
+          <View className="flex-row gap-1.5 flex-wrap">
             {STREAK.map((v, i) => {
               const isToday = i === 9;
               const cls = isToday ? 'today' : v ? 'yes' : 'no';
               return (
                 <View
                   key={i}
-                  style={[
-                    styles.sk,
-                    cls === 'today' && styles.skToday,
-                    cls === 'yes' && styles.skYes,
-                    cls === 'no' && styles.skNo,
-                  ]}
+                  className={`w-7 h-7 rounded-lg items-center justify-center ${cls === 'yes' ? 'bg-primary' : cls === 'today' ? 'bg-primary shadow-sm shadow-primary/35' : 'bg-[#f1f5f9] border border-border'}`}
+                  style={cls === 'today' ? { elevation: 3 } : {}}
                 >
-                  <Text style={[styles.skTxt, cls === 'no' && { color: COLORS.muted }]}>
+                  <Text className={`text-[11px] font-bold ${v || isToday ? 'text-white' : 'text-muted'}`}>
                     {v || isToday ? '✓' : '×'}
                   </Text>
                 </View>
@@ -88,27 +87,5 @@ export default function StatsScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: COLORS.bg },
-  hdr: { backgroundColor: '#0d9488', paddingHorizontal: 16, paddingTop: 16, paddingBottom: 19, borderBottomLeftRadius: 20, borderBottomRightRadius: 20 },
-  hdrTitle: { fontSize: 18, fontWeight: '900', color: '#fff' },
-  hdrSub: { fontSize: 11, color: 'rgba(255,255,255,0.65)', marginTop: 2 },
-  body: { flex: 1 },
-  bodyContent: { padding: 12, paddingBottom: 20 },
-  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 10 },
-  statCard: { flex: 1, minWidth: '45%', backgroundColor: COLORS.card, borderRadius: 13, padding: 12, borderWidth: 1, borderColor: COLORS.border, alignItems: 'center' },
-  statVal: { fontSize: 24, fontWeight: '900', color: COLORS.primary },
-  statLbl: { fontSize: 10, color: COLORS.muted, fontWeight: '600', marginTop: 2 },
-  box: { backgroundColor: COLORS.card, borderRadius: 13, padding: 12, borderWidth: 1, borderColor: COLORS.border, marginBottom: 10 },
-  boxTitle: { fontSize: 12, fontWeight: '800', color: COLORS.text, marginBottom: 10 },
-  bars: { flexDirection: 'row', alignItems: 'flex-end', gap: 5, height: 76 },
-  barCol: { flex: 1, alignItems: 'center', gap: 4 },
-  bar: { width: '100%', borderRadius: 4, minHeight: 4 },
-  barDay: { fontSize: 8, color: COLORS.muted, fontWeight: '600' },
-  streakRow: { flexDirection: 'row', gap: 6, flexWrap: 'wrap' },
-  sk: { width: 28, height: 28, borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
-  skYes: { backgroundColor: COLORS.primary },
-  skToday: { backgroundColor: COLORS.primary, shadowColor: COLORS.primary, shadowOpacity: 0.35, shadowRadius: 6, elevation: 3 },
-  skNo: { backgroundColor: '#f1f5f9', borderWidth: 1, borderColor: COLORS.border },
-  skTxt: { fontSize: 11, fontWeight: '700', color: '#fff' },
-});
+const styles = StyleSheet.create({});
+

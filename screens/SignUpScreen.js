@@ -40,84 +40,64 @@ export default function SignUpScreen({ navigation }) {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1 }}
+      className="flex-1"
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.bg} />
-      <ScrollView style={styles.container} contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+      <ScrollView className="flex-1 bg-bg" contentContainerStyle={{ padding: 20, paddingBottom: 30 }} keyboardShouldPersistTaps="handled">
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={styles.back}>← Back to login</Text>
+          <Text className="text-primary font-bold text-[13px] mb-4">← Back to login</Text>
         </TouchableOpacity>
 
-        <Text style={styles.heading}>Create account 🚀</Text>
-        <Text style={styles.sub}>Join and start planning today</Text>
+        <Text className="text-[23px] font-black text-text">Create account 🚀</Text>
+        <Text className="text-sm text-muted mt-1 mb-1.5">Join and start planning today</Text>
 
-        <Text style={styles.label}>Full name</Text>
-        <TextInput style={styles.input} value={name} onChangeText={setName} placeholder="Abdul Basit" placeholderTextColor="#b0b7c3" />
+        <Text className="text-[11px] font-bold text-text mt-3 mb-1.5">Full name</Text>
+        <TextInput className="border-2 border-border rounded-xl p-3 text-sm text-text bg-card" value={name} onChangeText={setName} placeholder="Abdul Basit" placeholderTextColor="#b0b7c3" />
 
-        <Text style={styles.label}>Registration number</Text>
-        <TextInput style={styles.input} value={reg} onChangeText={setReg} placeholder="SP24-BCS-033" placeholderTextColor="#b0b7c3" autoCapitalize="characters" />
+        <Text className="text-[11px] font-bold text-text mt-3 mb-1.5">Registration number</Text>
+        <TextInput className="border-2 border-border rounded-xl p-3 text-sm text-text bg-card" value={reg} onChangeText={setReg} placeholder="SP24-BCS-033" placeholderTextColor="#b0b7c3" autoCapitalize="characters" />
 
-        <Text style={styles.label}>University email</Text>
-        <TextInput style={styles.input} value={email} onChangeText={setEmail} placeholder="sp24-bcs-033@cuiatk.edu.pk" placeholderTextColor="#b0b7c3" keyboardType="email-address" autoCapitalize="none" />
+        <Text className="text-[11px] font-bold text-text mt-3 mb-1.5">University email</Text>
+        <TextInput className="border-2 border-border rounded-xl p-3 text-sm text-text bg-card" value={email} onChangeText={setEmail} placeholder="sp24-bcs-033@cuiatk.edu.pk" placeholderTextColor="#b0b7c3" keyboardType="email-address" autoCapitalize="none" />
 
-        <Text style={styles.label}>Password</Text>
-        <TextInput style={styles.input} value={password} onChangeText={setPassword} placeholder="Min. 6 characters" placeholderTextColor="#b0b7c3" secureTextEntry />
+        <Text className="text-[11px] font-bold text-text mt-3 mb-1.5">Password</Text>
+        <TextInput className="border-2 border-border rounded-xl p-3 text-sm text-text bg-card" value={password} onChangeText={setPassword} placeholder="Min. 6 characters" placeholderTextColor="#b0b7c3" secureTextEntry />
 
-        <Text style={styles.label}>Current semester</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginTop: 6, marginBottom: 4 }}>
-          <View style={{ flexDirection: 'row', gap: 6 }}>
+        <Text className="text-[11px] font-bold text-text mt-3 mb-1.5">Current semester</Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mt-1.5 mb-1">
+          <View className="flex-row gap-1.5">
             {SEMESTERS.map((s, i) => (
               <TouchableOpacity
                 key={s}
-                style={[styles.semBtn, i === semIdx && styles.semBtnSel]}
+                className={`px-3 py-1.5 rounded-lg border-2 ${i === semIdx ? 'bg-primaryBg border-primary/20' : 'bg-[#f1f5f9] border-transparent'}`}
                 onPress={() => setSemIdx(i)}
                 activeOpacity={0.75}
               >
-                <Text style={[styles.semTxt, i === semIdx && styles.semTxtSel]}>{s}</Text>
+                <Text className={`text-xs font-bold ${i === semIdx ? 'text-primary' : 'text-muted'}`}>{s}</Text>
               </TouchableOpacity>
             ))}
           </View>
         </ScrollView>
 
         {error ? (
-          <View style={styles.errBox}><Text style={styles.errTxt}>{error}</Text></View>
+          <View className="bg-red/10 rounded-lg p-2.5 mt-2 border border-red/40"><Text className="text-xs text-red">{error}</Text></View>
         ) : null}
         {success ? (
-          <View style={styles.okBox}><Text style={styles.okTxt}>{success}</Text></View>
+          <View className="bg-green/10 rounded-lg p-2.5 mt-2 border border-green/40"><Text className="text-xs text-green">{success}</Text></View>
         ) : null}
 
-        <TouchableOpacity style={styles.btn} activeOpacity={0.85} onPress={doSignup}>
-          <Text style={styles.btnTxt}>Create Account</Text>
+        <TouchableOpacity className="bg-primary rounded-2xl py-3.5 items-center mt-3.5 shadow-sm" activeOpacity={0.85} onPress={doSignup}>
+          <Text className="text-white font-extrabold text-[15px]">Create Account</Text>
         </TouchableOpacity>
 
-        <Text style={styles.switchTxt}>
+        <Text className="text-center text-sm text-muted mt-3.5">
           Have an account?{' '}
-          <Text style={styles.switchLink} onPress={() => navigation.navigate('Login')}>Log in</Text>
+          <Text className="text-primary font-bold" onPress={() => navigation.navigate('Login')}>Log in</Text>
         </Text>
       </ScrollView>
     </KeyboardAvoidingView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: COLORS.bg },
-  content: { padding: 20, paddingBottom: 30 },
-  back: { color: COLORS.primary, fontWeight: '700', fontSize: 13, marginBottom: 16 },
-  heading: { fontSize: 23, fontWeight: '900', color: COLORS.text },
-  sub: { fontSize: 13, color: COLORS.muted, marginTop: 3, marginBottom: 6 },
-  label: { fontSize: 11, fontWeight: '700', color: COLORS.text, marginTop: 12, marginBottom: 5 },
-  input: { borderWidth: 1.5, borderColor: COLORS.border, borderRadius: 11, padding: 11, fontSize: 14, color: COLORS.text, backgroundColor: COLORS.card },
-  semBtn: { paddingHorizontal: 12, paddingVertical: 7, borderRadius: 9, backgroundColor: '#f1f5f9', borderWidth: 1.5, borderColor: 'transparent' },
-  semBtnSel: { backgroundColor: COLORS.primaryBg, borderColor: COLORS.primaryLight },
-  semTxt: { fontSize: 12, fontWeight: '700', color: COLORS.muted },
-  semTxtSel: { color: COLORS.primary },
-  errBox: { backgroundColor: '#fef2f2', borderRadius: 9, padding: 9, marginTop: 8, borderWidth: 1, borderColor: '#fecaca' },
-  errTxt: { fontSize: 12, color: COLORS.red },
-  okBox: { backgroundColor: '#f0fdf4', borderRadius: 9, padding: 9, marginTop: 8, borderWidth: 1, borderColor: '#bbf7d0' },
-  okTxt: { fontSize: 12, color: COLORS.green },
-  btn: { backgroundColor: COLORS.primary, borderRadius: 14, paddingVertical: 14, alignItems: 'center', marginTop: 14 },
-  btnTxt: { color: '#fff', fontWeight: '800', fontSize: 15 },
-  switchTxt: { textAlign: 'center', fontSize: 13, color: COLORS.muted, marginTop: 14 },
-  switchLink: { color: COLORS.primary, fontWeight: '700' },
-});
+const styles = StyleSheet.create({});
