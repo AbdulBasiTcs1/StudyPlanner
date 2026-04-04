@@ -37,30 +37,30 @@ export default function LoginScreen({ navigation }) {
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.bg} />
       <ScrollView
         className="flex-1 bg-bg"
-        contentContainerStyle={{ padding: 24, paddingBottom: 40 }}
+        contentContainerStyle={{ paddingHorizontal: 18, paddingTop: 20, paddingBottom: 30 }}
         keyboardShouldPersistTaps="handled"
       >
         {/* Back button */}
-        <TouchableOpacity onPress={() => navigation.goBack()} className="mb-6">
-          <Text className="text-primary font-bold text-sm">← Back</Text>
+        <TouchableOpacity onPress={() => navigation.goBack()} className="mb-3.5">
+          <Text className="text-primary font-bold text-[12px]">← Back</Text>
         </TouchableOpacity>
 
         {/* Header */}
-        <Text className="text-[26px] font-black text-text">Welcome back 👋</Text>
-        <Text className="text-sm text-muted mt-1 mb-5">Log in to continue planning</Text>
+        <Text className="text-[21px] font-black text-text">Welcome back 👋</Text>
+        <Text className="text-[12px] text-muted mt-0.5 mb-3.5">Log in to continue</Text>
 
         {/* Demo credentials hint */}
-        <View className="bg-primaryBg rounded-2xl p-3.5 border border-primary/20 mb-6">
-          <Text className="text-xs text-primary leading-5">
-            💡 <Text className="font-bold">Demo Email:</Text> sp24-bcs-033@cuiatk.edu.pk{'\n'}
+        <View className="bg-primaryBg rounded-xl p-[11px] border border-primary/15 mb-1 mt-1">
+          <Text className="text-[11px] text-primary leading-5">
+            💡 <Text className="font-bold">Email:</Text> sp24-bcs-033@cuiatk.edu.pk{'\n'}
             <Text className="font-bold">Password:</Text> basit2024
           </Text>
         </View>
 
         {/* Email field */}
-        <Text className="text-xs font-bold text-text mb-1.5">Email address</Text>
+        <Text className="text-[11px] font-bold text-text mt-2.5 mb-1">Email address</Text>
         <TextInput
-          className="border-2 border-border rounded-2xl p-3.5 text-sm text-text bg-card mb-4"
+          className="border-[1.5px] border-border rounded-xl p-2.5 px-3 text-[13px] text-text bg-card mb-0.5"
           value={email}
           onChangeText={setEmail}
           placeholder="your@cuiatk.edu.pk"
@@ -70,9 +70,9 @@ export default function LoginScreen({ navigation }) {
         />
 
         {/* Password field */}
-        <Text className="text-xs font-bold text-text mb-1.5">Password</Text>
+        <Text className="text-[11px] font-bold text-text mt-2.5 mb-1">Password</Text>
         <TextInput
-          className="border-2 border-border rounded-2xl p-3.5 text-sm text-text bg-card mb-2"
+          className="border-[1.5px] border-border rounded-xl p-2.5 px-3 text-[13px] text-text bg-card mb-0.5"
           value={password}
           onChangeText={setPassword}
           placeholder="Enter password"
@@ -87,20 +87,20 @@ export default function LoginScreen({ navigation }) {
           </View>
         ) : null}
 
-        {/* Login button */}
+        {/* Submit */}
         <TouchableOpacity
-          className={`rounded-2xl py-4 items-center mt-5 ${loading ? 'bg-primary/60' : 'bg-primary'}`}
-          activeOpacity={0.85}
+          className="bg-primary rounded-xl py-3 items-center mt-3"
+          activeOpacity={0.88}
           onPress={doLogin}
           disabled={loading}
         >
-          <Text className="text-white font-extrabold text-base">
+          <Text className="text-white font-extrabold text-[14px]">
             {loading ? 'Logging in...' : 'Log In'}
           </Text>
         </TouchableOpacity>
 
         {/* Sign up link */}
-        <Text className="text-center text-sm text-muted mt-5">
+        <Text className="text-center text-[12px] text-muted mt-3">
           New here?{' '}
           <Text
             className="text-primary font-bold"

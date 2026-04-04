@@ -41,9 +41,9 @@ export default function SignUpScreen({ navigation }) {
 
   const InputField = ({ label, ...props }) => (
     <>
-      <Text className="text-xs font-bold text-text mt-4 mb-1.5">{label}</Text>
+      <Text className="text-[11px] font-bold text-text mt-2.5 mb-1">{label}</Text>
       <TextInput
-        className="border-2 border-border rounded-2xl p-3.5 text-sm text-text bg-card"
+        className="border-[1.5px] border-border rounded-xl p-2.5 px-3 text-[13px] text-text bg-card"
         placeholderTextColor="#b0b7c3"
         {...props}
       />
@@ -58,17 +58,17 @@ export default function SignUpScreen({ navigation }) {
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.bg} />
       <ScrollView
         className="flex-1 bg-bg"
-        contentContainerStyle={{ padding: 24, paddingBottom: 40 }}
+        contentContainerStyle={{ paddingHorizontal: 18, paddingTop: 20, paddingBottom: 30 }}
         keyboardShouldPersistTaps="handled"
       >
         {/* Back */}
-        <TouchableOpacity onPress={() => navigation.goBack()} className="mb-6">
-          <Text className="text-primary font-bold text-sm">← Back to login</Text>
+        <TouchableOpacity onPress={() => navigation.goBack()} className="mb-3.5">
+          <Text className="text-primary font-bold text-[12px]">← Back to login</Text>
         </TouchableOpacity>
 
         {/* Header */}
-        <Text className="text-[26px] font-black text-text">Create account 🚀</Text>
-        <Text className="text-sm text-muted mt-1 mb-2">Join and start planning today</Text>
+        <Text className="text-[21px] font-black text-text">Create account 🚀</Text>
+        <Text className="text-[12px] text-muted mt-0.5 mb-2.5">Join and start planning today</Text>
 
         {/* Fields */}
         <InputField label="Full name"          value={name}     onChangeText={setName}     placeholder="Abdul Basit" />
@@ -77,21 +77,21 @@ export default function SignUpScreen({ navigation }) {
         <InputField label="Password"            value={password} onChangeText={setPassword} placeholder="Min. 6 characters" secureTextEntry />
 
         {/* Semester picker */}
-        <Text className="text-xs font-bold text-text mt-4 mb-2">Current semester</Text>
+        <Text className="text-[11px] font-bold text-text mt-3 mb-2">Current semester</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <View className="flex-row gap-2">
+          <View className="flex-row gap-1.5">
             {SEMESTERS.map((s, i) => (
               <TouchableOpacity
                 key={s}
-                className={`px-3.5 py-2 rounded-xl border-2 ${
+                className={`px-3 py-1.5 rounded-lg border-2 ${
                   i === semIdx
-                    ? 'bg-primaryBg border-primary/30'
-                    : 'bg-card border-border'
+                    ? 'bg-primaryBg border-primary/20'
+                    : 'bg-card border-transparent'
                 }`}
                 onPress={() => setSemIdx(i)}
                 activeOpacity={0.75}
               >
-                <Text className={`text-xs font-bold ${i === semIdx ? 'text-primary' : 'text-muted'}`}>
+                <Text className={`text-[11px] font-bold ${i === semIdx ? 'text-primary' : 'text-muted'}`}>
                   {s}
                 </Text>
               </TouchableOpacity>
@@ -113,14 +113,14 @@ export default function SignUpScreen({ navigation }) {
 
         {/* Submit */}
         <TouchableOpacity
-          className="bg-primary rounded-2xl py-4 items-center mt-5"
+          className="bg-primary rounded-xl py-3.5 items-center mt-3.5 shadow-sm"
           activeOpacity={0.85}
           onPress={doSignup}
         >
-          <Text className="text-white font-extrabold text-base">Create Account</Text>
+          <Text className="text-white font-extrabold text-[15px]">Create Account</Text>
         </TouchableOpacity>
 
-        <Text className="text-center text-sm text-muted mt-5">
+        <Text className="text-center text-[12px] text-muted mt-3">
           Have an account?{' '}
           <Text className="text-primary font-bold" onPress={() => navigation.navigate('Login')}>
             Log in

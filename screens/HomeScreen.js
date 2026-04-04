@@ -44,12 +44,12 @@ export default function HomeScreen({ navigation }) {
     const prio  = PRIO[item.p] || PRIO.l;
     return (
       <TouchableOpacity
-        className={`bg-card rounded-2xl p-3 mb-2 border border-border flex-row items-center gap-2.5 ${item.done ? 'opacity-50' : ''}`}
+        className={`bg-card rounded-[11px] p-[9px] mb-1.5 border border-border flex-row items-center gap-2 ${item.done ? 'opacity-50' : ''}`}
         activeOpacity={0.85}
       >
         {/* Checkbox */}
         <TouchableOpacity
-          className={`w-6 h-6 rounded-full border-2 items-center justify-center flex-shrink-0 ${
+          className={`w-[21px] h-[21px] rounded-full border-2 items-center justify-center flex-shrink-0 ${
             item.done ? 'bg-green border-green' : 'border-border'
           }`}
           onPress={() => toggleTask(index)}
@@ -60,14 +60,14 @@ export default function HomeScreen({ navigation }) {
 
         {/* Subject colour dot */}
         <View
-          className="w-2 h-2 rounded-full flex-shrink-0"
+          className="w-2 h-2 rounded-full flex-shrink-0 mx-0.5"
           style={{ backgroundColor: sj.color }}
         />
 
         {/* Title + meta */}
         <View className="flex-1 min-w-0">
           <Text
-            className={`text-xs font-bold text-text ${item.done ? 'line-through text-muted' : ''}`}
+            className={`text-[12px] font-bold text-text ${item.done ? 'line-through text-muted' : ''}`}
             numberOfLines={1}
           >
             {item.title}
@@ -78,7 +78,7 @@ export default function HomeScreen({ navigation }) {
         </View>
 
         {/* Priority badge */}
-        <View className={`px-2 py-0.5 rounded-lg flex-shrink-0 ${prio.bg}`}>
+        <View className={`px-1.5 py-0.5 rounded-md flex-shrink-0 ${prio.bg}`}>
           <Text className={`text-[9px] font-bold ${prio.text}`}>{prio.label}</Text>
         </View>
       </TouchableOpacity>
@@ -90,25 +90,25 @@ export default function HomeScreen({ navigation }) {
       <StatusBar barStyle="light-content" backgroundColor={COLORS.primary} />
 
       {/* ── Header ────────────────────────────────────────────── */}
-      <View className="bg-primary px-5 pt-5 pb-8 rounded-b-[26px]">
+      <View className="bg-primary px-[15px] pt-4 pb-[26px] rounded-b-[22px]">
         <View className="flex-row justify-between items-center">
           <View>
-            <Text className="text-xs text-white/60 font-medium">{getGreeting()}</Text>
-            <Text className="text-xl font-black text-white mt-0.5">{user.name}</Text>
+            <Text className="text-[11px] text-white/60 font-medium">{getGreeting()}</Text>
+            <Text className="text-[17px] font-black text-white mt-0.5">{user.name}</Text>
           </View>
           {/* Avatar */}
-          <View className="w-10 h-10 rounded-full bg-white/25 border-2 border-white/40 items-center justify-center">
-            <Text className="text-sm font-extrabold text-white">{getInitials(user.name)}</Text>
+          <View className="w-9 h-9 rounded-full bg-white/25 border-2 border-white/35 items-center justify-center">
+            <Text className="text-xs font-extrabold text-white">{getInitials(user.name)}</Text>
           </View>
         </View>
 
         {/* Progress bar */}
         <View className="mt-4">
           <View className="flex-row justify-between mb-1">
-            <Text className="text-xs text-white/70">Daily progress</Text>
-            <Text className="text-xs text-white font-bold">{pct}%</Text>
+            <Text className="text-[10px] text-white/70">Daily progress</Text>
+            <Text className="text-[10px] text-white font-bold">{pct}%</Text>
           </View>
-          <View className="h-2 bg-white/20 rounded-full overflow-hidden">
+          <View className="h-1.5 bg-white/20 rounded-full overflow-hidden">
             <View
               className="h-full bg-white rounded-full"
               style={{ width: `${pct}%` }}
@@ -118,7 +118,7 @@ export default function HomeScreen({ navigation }) {
       </View>
 
       {/* ── Stats cards (overlapping header) ─────────────────── */}
-      <View className="flex-row gap-2 px-4 -mt-5 z-10">
+      <View className="flex-row gap-1.5 px-[12px] -mt-4 z-10">
         {[
           { val: String(total), lbl: 'Tasks'  },
           { val: `${done}`,     lbl: 'Done'   },
@@ -126,32 +126,32 @@ export default function HomeScreen({ navigation }) {
         ].map((card) => (
           <View
             key={card.lbl}
-            className="flex-1 bg-card rounded-2xl py-2.5 px-1 items-center border border-border"
+            className="flex-1 bg-card rounded-xl py-2.5 px-1 items-center border border-border"
             style={{ elevation: 3 }}
           >
-            <Text className="text-lg font-black text-primary">{card.val}</Text>
+            <Text className="text-[17px] font-black text-primary">{card.val}</Text>
             <Text className="text-[9px] text-muted font-semibold mt-0.5">{card.lbl}</Text>
           </View>
         ))}
       </View>
 
       {/* ── Section header ────────────────────────────────────── */}
-      <View className="flex-row justify-between items-center px-4 py-3 mt-2">
-        <Text className="text-sm font-extrabold text-text">Today's Tasks</Text>
+      <View className="flex-row justify-between items-center px-[13px] py-2.5 mt-1">
+        <Text className="text-[13px] font-extrabold text-text">Today's Tasks</Text>
         <TouchableOpacity
-          className="bg-primaryBg px-3 py-1.5 rounded-xl"
+          className="bg-primaryBg px-[9px] py-1 rounded-lg"
           onPress={() => navigation.navigate('AddTask')}
         >
-          <Text className="text-xs text-primary font-bold">＋ Add task</Text>
+          <Text className="text-[11px] text-primary font-bold">＋ Add task</Text>
         </TouchableOpacity>
       </View>
 
       {/* ── Task list ─────────────────────────────────────────── */}
       {tasks.length === 0 ? (
         <View className="flex-1 items-center justify-center p-8">
-          <Text className="text-5xl mb-3">📝</Text>
+          <Text className="text-4xl mb-2.5">📝</Text>
           <Text className="text-sm font-bold text-text mb-1">No tasks yet</Text>
-          <Text className="text-xs text-muted text-center leading-5">
+          <Text className="text-[11px] text-muted text-center leading-4">
             Tap <Text className="font-bold text-primary">＋ Add task</Text> above{'\n'}or the{' '}
             <Text className="font-bold text-primary">➕</Text> button below.
           </Text>
@@ -161,19 +161,19 @@ export default function HomeScreen({ navigation }) {
           data={tasks}
           keyExtractor={(_, i) => String(i)}
           renderItem={renderTask}
-          contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 100 }}
+          contentContainerStyle={{ paddingHorizontal: 11, paddingBottom: 80 }}
           showsVerticalScrollIndicator={false}
         />
       )}
 
       {/* ── FAB ───────────────────────────────────────────────── */}
       <TouchableOpacity
-        className="absolute bottom-3 right-4 w-14 h-14 rounded-full bg-primary items-center justify-center"
+        className="absolute bottom-1.5 right-3 w-[46px] h-[46px] rounded-full bg-primary items-center justify-center"
         style={{ elevation: 6 }}
         onPress={() => navigation.navigate('AddTask')}
         activeOpacity={0.8}
       >
-        <Text className="text-white text-3xl font-light leading-none">+</Text>
+        <Text className="text-white text-2xl font-light leading-none">+</Text>
       </TouchableOpacity>
     </View>
   );

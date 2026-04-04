@@ -31,76 +31,72 @@ export default function SubjectsScreen() {
     <View className="flex-1 bg-bg">
       <StatusBar barStyle="light-content" backgroundColor="#e8365d" />
 
-      {/* ── Header ──────────────────────────────────── */}
-      <View
-        className="px-5 pt-5 pb-6 rounded-b-[24px]"
-        style={{ backgroundColor: '#e8365d' }}
-      >
-        <Text className="text-xl font-black text-white">My Subjects</Text>
-        <Text className="text-xs text-white/65 mt-1">
+      {/* ── Header ────────────────────────────────────────── */}
+      <View className="bg-secondary px-[15px] pt-4 pb-6 rounded-b-[22px]">
+        <Text className="text-[17px] font-black text-white">My Subjects</Text>
+        <Text className="text-[11px] text-white/60 mt-0.5">
           {user.sem} · {subjects.length} subjects
         </Text>
       </View>
 
-      {/* ── Subject list ────────────────────────────── */}
-      <ScrollView
-        className="flex-1"
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ padding: 14, paddingBottom: 24 }}
-      >
-        {subjects.map((s, i) => {
-          const pct = s.topics > 0 ? Math.round((s.done / s.topics) * 100) : 0;
+      {/* ── List ──────────────────────────────────────────── */}
+      <FlatList
+        data={subjects}
+        keyExtractor={(_, i) => String(i)}
+        renderItem={({ item }) => {
+          const pct = item.topics > 0 ? Math.round((item.done / item.topics) * 100) : 0;
           return (
             <TouchableOpacity
-              key={i}
-              className="bg-card rounded-2xl p-3.5 mb-2.5 border border-border"
-              activeOpacity={0.85}
+              className="bg-card rounded-xl p-[11px] mb-[7px] border border-border"
+              activeOpacity={0.8}
             >
-              <View className="flex-row items-center gap-3">
-                {/* Icon bubble */}
+              <View className="flex-row items-center gap-[9px]">
+                {/* Icon box */}
                 <View
-                  className="w-11 h-11 rounded-2xl items-center justify-center flex-shrink-0"
-                  style={{ backgroundColor: s.color + '20' }}
+                  className="w-[38px] h-[38px] rounded-xl items-center justify-center"
+                  style={{ backgroundColor: item.color + '20' }}
                 >
-                  <Text className="text-2xl">{s.icon}</Text>
+                  <Text className="text-[18px]">{item.icon}</Text>
                 </View>
 
-                {/* Info */}
+                {/* Details */}
                 <View className="flex-1 min-w-0">
-                  <Text className="text-sm font-extrabold text-text" numberOfLines={1}>
-                    {s.name}
+                  <Text className="text-[12px] font-extrabold text-text" numberOfLines={1}>
+                    {item.name}
                   </Text>
                   <Text className="text-[10px] text-muted mt-0.5">
-                    {s.topics} topics · {s.topics - s.done} pending
+                    {item.topics} topics · {item.topics - item.done} pending
                   </Text>
                 </View>
 
-                {/* Percentage */}
-                <Text className="text-sm font-black flex-shrink-0" style={{ color: s.color }}>
+                {/* % */}
+                <Text className="text-[13px] font-black" style={{ color: item.color }}>
                   {pct}%
                 </Text>
               </View>
 
-              {/* Progress bar */}
-              <View className="w-full h-1.5 bg-border rounded-full mt-3 overflow-hidden">
+              {/* Progress track */}
+              <View className="w-full h-1 bg-slate-100 rounded-full mt-2 overflow-hidden">
                 <View
                   className="h-full rounded-full"
-                  style={{ width: `${pct}%`, backgroundColor: s.color }}
+                  style={{ width: `${pct}%`, backgroundColor: item.color }}
                 />
               </View>
             </TouchableOpacity>
           );
-        })}
-
-        {/* Add button */}
-        <TouchableOpacity
-          className="bg-primaryBg rounded-2xl py-3.5 items-center border-2 border-dashed border-primary/30 mt-1"
-          onPress={openModal}
-          activeOpacity={0.8}
-        >
-          <Text className="text-primary font-extrabold text-sm">＋ Add New Subject</Text>
-        </TouchableOpacity>
-      </ScrollView>
+        }}
+        contentContainerStyle={{ paddingHorizontal: 11, paddingTop: 6, paddingBottom: 80 }}
+        showsVerticalScrollIndicator={false}
+        ListFooterComponent={
+          <TouchableOpacity
+            className="bg-primaryBg rounded-2xl py-3.5 items-center border-2 border-dashed border-primary/30 mt-1"
+            onPress={openModal}
+            activeOpacity={0.8}
+          >
+            <Text className="text-primary font-extrabold text-sm">＋ Add New Subject</Text>
+          </TouchableOpacity>
+        }
+      />
 
       {/* ── Add Subject Modal ────────────────────────── */}
       <Modal

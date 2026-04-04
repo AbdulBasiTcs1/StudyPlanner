@@ -32,24 +32,24 @@ function MyTabBar({ state, descriptors, navigation }) {
   ];
 
   return (
-    <View className="flex-row bg-card border-t border-border pt-2 pb-2" style={{ elevation: 8 }}>
+    <View className="flex-row bg-card border-t border-border pt-1.5 pb-2 h-[50px]" style={{ elevation: 8 }}>
       {state.routes.map((route, index) => {
         const tab = tabs[index];
         const focused = state.index === index;
         return (
           <TouchableOpacity
             key={route.key}
-            className="flex-1 items-center justify-center"
+            className="flex-1 items-center justify-center pt-0.5"
             activeOpacity={0.75}
             onPress={() => navigation.navigate(route.name)}
           >
             {/* Active indicator dot */}
             {focused && (
-              <View className="absolute top-0 w-6 h-0.5 bg-primary rounded-full" />
+              <View className="absolute top-0 w-4 h-0.5 bg-primary rounded-full" />
             )}
-            <Text className="text-[18px] leading-6">{tab.icon}</Text>
+            <Text className="text-[17px] leading-5">{tab.icon}</Text>
             <Text
-              className={`text-[9px] font-bold mt-0.5 ${focused ? 'text-primary' : 'text-muted'}`}
+              className={`text-[8px] font-bold mt-0.5 ${focused ? 'text-primary' : 'text-muted'}`}
             >
               {tab.label}
             </Text>
