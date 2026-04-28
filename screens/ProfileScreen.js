@@ -29,6 +29,13 @@ const SETTINGS_GROUPS = [
       { icon: 'ℹ️', label: 'About App',         msg: 'StudyPlanner v1.0 · React Native · SP24-BCS-033'    },
     ],
   },
+  {
+    title: 'Lab #16 (Firebase)',
+    items: [
+      { icon: '📝', label: 'Insert Record',     route: 'InsertRecord' },
+      { icon: '📂', label: 'View Records',      route: 'ViewRecords'   },
+    ],
+  },
 ];
 
 export default function ProfileScreen() {
@@ -81,7 +88,13 @@ export default function ProfileScreen() {
                   className={`flex-row items-center gap-3 px-4 py-3.5 ${
                     ii < group.items.length - 1 ? 'border-b border-border' : ''
                   }`}
-                  onPress={() => Alert.alert('', item.msg)}
+                  onPress={() => {
+                    if (item.route) {
+                      navigation.navigate(item.route);
+                    } else {
+                      Alert.alert('', item.msg);
+                    }
+                  }}
                   activeOpacity={0.75}
                 >
                   <Text className="text-base w-5 text-center">{item.icon}</Text>

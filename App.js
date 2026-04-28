@@ -17,6 +17,8 @@ import AddTaskScreen from './screens/AddTaskScreen';
 import SubjectsScreen from './screens/SubjectsScreen';
 import StatsScreen from './screens/StatsScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import InsertRecord from './screens/InsertRecord';
+import ViewRecords from './screens/ViewRecords';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -95,6 +97,8 @@ export default function App() {
             <Stack.Screen name="Login"   component={LoginScreen}  />
             <Stack.Screen name="SignUp"  component={SignUpScreen} />
             <Stack.Screen name="Main"    component={MainTabs}     />
+            <Stack.Screen name="InsertRecord" component={InsertRecord} />
+            <Stack.Screen name="ViewRecords"   component={ViewRecords}  />
           </Stack.Navigator>
         </NavigationContainer>
       </AppProvider>
