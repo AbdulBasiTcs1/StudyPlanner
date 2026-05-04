@@ -2,13 +2,13 @@
 import React, { useState } from 'react';
 import {
   View, Text, ScrollView, TouchableOpacity,
-  StatusBar, Modal, TextInput, FlatList,
+  StatusBar, Modal, TextInput, FlatList, Alert
 } from 'react-native';
 import { useApp } from '../AppContext';
 import { COLORS, ICONS, PALETTE } from '../theme';
 
 export default function SubjectsScreen() {
-  const { user, subjects, addSubject } = useApp();
+  const { user, subjects, addSubject, deleteSubject } = useApp();
   const [modalVisible, setModalVisible] = useState(false);
   const [name,         setName]         = useState('');
   const [topics,       setTopics]       = useState('10');
@@ -42,13 +42,19 @@ export default function SubjectsScreen() {
       {/* ── List ──────────────────────────────────────────── */}
       <FlatList
         data={subjects}
-        keyExtractor={(_, i) => String(i)}
+        keyExtractor={(item, i) => item.id || String(i)}
         renderItem={({ item }) => {
           const pct = item.topics > 0 ? Math.round((item.done / item.topics) * 100) : 0;
           return (
             <TouchableOpacity
               className="bg-card rounded-xl p-[11px] mb-[7px] border border-border"
               activeOpacity={0.8}
+              onLongPress={() => {
+                Alert.alert("Delete Subject", `Delete ${item.name}?`, [
+                  { text: "Cancel", style: "cancel" },
+                  { text: "Delete", style: "destructive", onPress: () => deleteSubject(item.id) }
+                ]);
+              }}
             >
               <View className="flex-row items-center gap-[9px]">
                 {/* Icon box */}

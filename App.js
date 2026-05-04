@@ -19,6 +19,7 @@ import StatsScreen from './screens/StatsScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import InsertRecord from './screens/InsertRecord';
 import ViewRecords from './screens/ViewRecords';
+import AiAssistantScreen from './screens/AiAssistantScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -99,6 +100,7 @@ export default function App() {
             <Stack.Screen name="Main"    component={MainTabs}     />
             <Stack.Screen name="InsertRecord" component={InsertRecord} />
             <Stack.Screen name="ViewRecords"   component={ViewRecords}  />
+            <Stack.Screen name="AiAssistant" component={AiAssistantScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </AppProvider>

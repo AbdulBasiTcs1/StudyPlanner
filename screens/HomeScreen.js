@@ -2,7 +2,7 @@
 import React, { useCallback } from 'react';
 import {
   View, Text, ScrollView, TouchableOpacity,
-  StatusBar, FlatList,
+  StatusBar, FlatList, Alert
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { useApp } from '../AppContext';
@@ -32,7 +32,7 @@ const PRIO = {
 };
 
 export default function HomeScreen({ navigation }) {
-  const { user, tasks, subjects, toggleTask } = useApp();
+  const { user, tasks, subjects, toggleTask, deleteTask } = useApp();
   const total = tasks.length;
   const done  = tasks.filter((t) => t.done).length;
   const pct   = total > 0 ? Math.round((done / total) * 100) : 0;
@@ -46,13 +46,19 @@ export default function HomeScreen({ navigation }) {
       <TouchableOpacity
         className={`bg-card rounded-[11px] p-[9px] mb-1.5 border border-border flex-row items-center gap-2 ${item.done ? 'opacity-50' : ''}`}
         activeOpacity={0.85}
+        onLongPress={() => {
+          Alert.alert("Delete Task", `Delete ${item.title}?`, [
+            { text: "Cancel", style: "cancel" },
+            { text: "Delete", style: "destructive", onPress: () => deleteTask(item.id) }
+          ]);
+        }}
       >
         {/* Checkbox */}
         <TouchableOpacity
           className={`w-[21px] h-[21px] rounded-full border-2 items-center justify-center flex-shrink-0 ${
             item.done ? 'bg-green border-green' : 'border-border'
           }`}
-          onPress={() => toggleTask(index)}
+          onPress={() => toggleTask(item)}
           activeOpacity={0.7}
         >
           {item.done ? <Text className="text-[10px] text-white font-bold">✓</Text> : null}
@@ -159,7 +165,7 @@ export default function HomeScreen({ navigation }) {
       ) : (
         <FlatList
           data={tasks}
-          keyExtractor={(_, i) => String(i)}
+          keyExtractor={(item, i) => item.id || String(i)}
           renderItem={renderTask}
           contentContainerStyle={{ paddingHorizontal: 11, paddingBottom: 80 }}
           showsVerticalScrollIndicator={false}
