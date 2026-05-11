@@ -6,7 +6,6 @@ import {
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { useApp } from '../AppContext';
-import { COLORS } from '../theme';
 
 function getGreeting() {
   const h = new Date().getHours();
@@ -32,7 +31,7 @@ const PRIO = {
 };
 
 export default function HomeScreen({ navigation }) {
-  const { user, tasks, subjects, toggleTask, deleteTask } = useApp();
+  const { user, tasks, subjects, toggleTask, deleteTask, isDarkMode, toggleDarkMode, themeColors } = useApp();
   const total = tasks.length;
   const done  = tasks.filter((t) => t.done).length;
   const pct   = total > 0 ? Math.round((done / total) * 100) : 0;
@@ -44,7 +43,8 @@ export default function HomeScreen({ navigation }) {
     const prio  = PRIO[item.p] || PRIO.l;
     return (
       <TouchableOpacity
-        className={`bg-card rounded-[11px] p-[9px] mb-1.5 border border-border flex-row items-center gap-2 ${item.done ? 'opacity-50' : ''}`}
+        className={`rounded-[11px] p-[9px] mb-1.5 border flex-row items-center gap-2 ${item.done ? 'opacity-50' : ''}`}
+        style={{ backgroundColor: themeColors.card, borderColor: themeColors.border }}
         activeOpacity={0.85}
         onLongPress={() => {
           Alert.alert("Delete Task", `Delete ${item.title}?`, [
@@ -55,9 +55,11 @@ export default function HomeScreen({ navigation }) {
       >
         {/* Checkbox */}
         <TouchableOpacity
-          className={`w-[21px] h-[21px] rounded-full border-2 items-center justify-center flex-shrink-0 ${
-            item.done ? 'bg-green border-green' : 'border-border'
-          }`}
+          className={`w-[21px] h-[21px] rounded-full border-2 items-center justify-center flex-shrink-0`}
+          style={{ 
+            backgroundColor: item.done ? themeColors.green : 'transparent',
+            borderColor: item.done ? themeColors.green : themeColors.border 
+          }}
           onPress={() => toggleTask(item)}
           activeOpacity={0.7}
         >
@@ -73,27 +75,28 @@ export default function HomeScreen({ navigation }) {
         {/* Title + meta */}
         <View className="flex-1 min-w-0">
           <Text
-            className={`text-[12px] font-bold text-text ${item.done ? 'line-through text-muted' : ''}`}
+            className={`text-[12px] font-bold ${item.done ? 'line-through' : ''}`}
+            style={{ color: item.done ? themeColors.muted : themeColors.text }}
             numberOfLines={1}
           >
             {item.title}
           </Text>
-          <Text className="text-[10px] text-muted mt-0.5">
+          <Text className="text-[10px] mt-0.5" style={{ color: themeColors.muted }}>
             {sj.name}{item.time ? ' · ' + item.time : ''}{item.dur ? ' · ' + item.dur : ''}
           </Text>
         </View>
 
         {/* Priority badge */}
-        <View className={`px-1.5 py-0.5 rounded-md flex-shrink-0 ${prio.bg}`}>
-          <Text className={`text-[9px] font-bold ${prio.text}`}>{prio.label}</Text>
+        <View className={`px-1.5 py-0.5 rounded-md flex-shrink-0`} style={{ backgroundColor: themeColors[prio.text.replace('text-', '')] + '20' }}>
+          <Text className={`text-[9px] font-bold`} style={{ color: themeColors[prio.text.replace('text-', '')] }}>{prio.label}</Text>
         </View>
       </TouchableOpacity>
     );
   }
 
   return (
-    <View className="flex-1 bg-bg">
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.primary} />
+    <View className="flex-1" style={{ backgroundColor: themeColors.bg }}>
+      <StatusBar barStyle="light-content" backgroundColor={themeColors.primary} />
 
       {/* ── Header ────────────────────────────────────────────── */}
       <View className="bg-primary px-[15px] pt-4 pb-[26px] rounded-b-[22px]">
@@ -102,9 +105,17 @@ export default function HomeScreen({ navigation }) {
             <Text className="text-[11px] text-white/60 font-medium">{getGreeting()}</Text>
             <Text className="text-[17px] font-black text-white mt-0.5">{user.name}</Text>
           </View>
-          {/* Avatar */}
-          <View className="w-9 h-9 rounded-full bg-white/25 border-2 border-white/35 items-center justify-center">
-            <Text className="text-xs font-extrabold text-white">{getInitials(user.name)}</Text>
+          {/* Theme Toggle & Avatar */}
+          <View className="flex-row items-center gap-3">
+            <TouchableOpacity 
+              onPress={toggleDarkMode}
+              className="w-9 h-9 rounded-full bg-white/20 items-center justify-center"
+            >
+              <Text className="text-lg">{isDarkMode ? '🌙' : '☀️'}</Text>
+            </TouchableOpacity>
+            <View className="w-9 h-9 rounded-full bg-white/25 border-2 border-white/35 items-center justify-center">
+              <Text className="text-xs font-extrabold text-white">{getInitials(user.name)}</Text>
+            </View>
           </View>
         </View>
 
@@ -132,23 +143,24 @@ export default function HomeScreen({ navigation }) {
         ].map((card) => (
           <View
             key={card.lbl}
-            className="flex-1 bg-card rounded-xl py-2.5 px-1 items-center border border-border"
-            style={{ elevation: 3 }}
+            className="flex-1 rounded-xl py-2.5 px-1 items-center border"
+            style={{ elevation: 3, backgroundColor: themeColors.card, borderColor: themeColors.border }}
           >
-            <Text className="text-[17px] font-black text-primary">{card.val}</Text>
-            <Text className="text-[9px] text-muted font-semibold mt-0.5">{card.lbl}</Text>
+            <Text className="text-[17px] font-black" style={{ color: themeColors.primary }}>{card.val}</Text>
+            <Text className="text-[9px] font-semibold mt-0.5" style={{ color: themeColors.muted }}>{card.lbl}</Text>
           </View>
         ))}
       </View>
 
       {/* ── Section header ────────────────────────────────────── */}
       <View className="flex-row justify-between items-center px-[13px] py-2.5 mt-1">
-        <Text className="text-[13px] font-extrabold text-text">Today's Tasks</Text>
+        <Text className="text-[13px] font-extrabold" style={{ color: themeColors.text }}>Today's Tasks</Text>
         <TouchableOpacity
-          className="bg-primaryBg px-[9px] py-1 rounded-lg"
+          className="px-[9px] py-1 rounded-lg"
+          style={{ backgroundColor: themeColors.primaryBg }}
           onPress={() => navigation.navigate('AddTask')}
         >
-          <Text className="text-[11px] text-primary font-bold">＋ Add task</Text>
+          <Text className="text-[11px] font-bold" style={{ color: themeColors.primary }}>＋ Add task</Text>
         </TouchableOpacity>
       </View>
 
@@ -156,10 +168,10 @@ export default function HomeScreen({ navigation }) {
       {tasks.length === 0 ? (
         <View className="flex-1 items-center justify-center p-8">
           <Text className="text-4xl mb-2.5">📝</Text>
-          <Text className="text-sm font-bold text-text mb-1">No tasks yet</Text>
-          <Text className="text-[11px] text-muted text-center leading-4">
-            Tap <Text className="font-bold text-primary">＋ Add task</Text> above{'\n'}or the{' '}
-            <Text className="font-bold text-primary">➕</Text> button below.
+          <Text className="text-sm font-bold mb-1" style={{ color: themeColors.text }}>No tasks yet</Text>
+          <Text className="text-[11px] text-center leading-4" style={{ color: themeColors.muted }}>
+            Tap <Text className="font-bold" style={{ color: themeColors.primary }}>＋ Add task</Text> above{'\n'}or the{' '}
+            <Text className="font-bold" style={{ color: themeColors.primary }}>➕</Text> button below.
           </Text>
         </View>
       ) : (

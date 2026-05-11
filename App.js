@@ -7,7 +7,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-import { AppProvider } from './AppContext';
+import { AppProvider, useApp } from './AppContext';
 
 import SplashScreen from './screens/SplashScreen';
 import LoginScreen from './screens/LoginScreen';
@@ -26,6 +26,7 @@ const Tab = createBottomTabNavigator();
 
 // ─── Custom Bottom Tab Bar (NativeWind styled) ────────────────────────────────
 function MyTabBar({ state, descriptors, navigation }) {
+  const { themeColors } = useApp();
   const tabsMap = {
     Home:     { icon: '🏠', label: 'Home'     },
     Subjects: { icon: '📚', label: 'Subjects' },
@@ -35,7 +36,10 @@ function MyTabBar({ state, descriptors, navigation }) {
   };
 
   return (
-    <View className="flex-row bg-card border-t border-border pt-1.5 pb-2 h-[50px]" style={{ elevation: 8 }}>
+    <View 
+      className="flex-row border-t pt-1.5 pb-2 h-[50px]" 
+      style={{ elevation: 8, backgroundColor: themeColors.card, borderTopColor: themeColors.border }}
+    >
       {state.routes.map((route, index) => {
         const tab = tabsMap[route.name] || { icon: '❓', label: route.name };
         const focused = state.index === index;
@@ -48,11 +52,12 @@ function MyTabBar({ state, descriptors, navigation }) {
           >
             {/* Active indicator dot */}
             {focused && (
-              <View className="absolute top-0 w-4 h-0.5 bg-primary rounded-full" />
+              <View className="absolute top-0 w-4 h-0.5 rounded-full" style={{ backgroundColor: themeColors.primary }} />
             )}
             <Text className="text-[17px] leading-5">{tab.icon}</Text>
             <Text
-              className={`text-[8px] font-bold mt-0.5 ${focused ? 'text-primary' : 'text-muted'}`}
+              className={`text-[8px] font-bold mt-0.5`}
+              style={{ color: focused ? themeColors.primary : themeColors.muted }}
             >
               {tab.label}
             </Text>

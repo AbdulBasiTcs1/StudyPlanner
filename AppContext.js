@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { ref, onValue, set, push, update, remove } from 'firebase/database';
 import { db } from './firebaseConfig';
+import { LIGHT_COLORS, DARK_COLORS } from './theme';
 
 const AppContext = createContext(null);
 
@@ -16,6 +17,11 @@ export function AppProvider({ children }) {
   const [tasks, setTasks] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const [aiNotes, setAiNotes] = useState([]);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const themeColors = isDarkMode ? DARK_COLORS : LIGHT_COLORS;
+
+  const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
 
   // Fetch Data from Firebase Realtime Database
   useEffect(() => {
@@ -141,7 +147,8 @@ export function AppProvider({ children }) {
       user, updateUserProfile, 
       tasks, addTask, toggleTask, deleteTask, 
       subjects, addSubject, deleteSubject,
-      aiNotes, addAiNote, deleteAiNote
+      aiNotes, addAiNote, deleteAiNote,
+      isDarkMode, toggleDarkMode, themeColors
     }}>
       {children}
     </AppContext.Provider>
